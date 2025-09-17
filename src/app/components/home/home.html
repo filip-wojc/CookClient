@@ -1,0 +1,36 @@
+<!-- home.html -->
+<div class="recipes-page">
+  <div class="recipes-container">
+    
+    <!-- Header -->
+    <div class="recipes-header">
+      <h1 class="recipes-title">Delicious Recipes</h1>
+      <p class="recipes-subtitle">
+        Discover amazing recipes from talented chefs around the world
+      </p>
+    </div>
+    
+    <!-- Recipes Grid -->
+    @if (recipeService.recipes()!.length > 0) {
+      <div class="recipes-grid">
+        @for (recipe of recipeService.recipes(); track recipe.id) {
+          <app-recipe [recipe]="recipe"></app-recipe>
+        }
+      </div>
+    }
+    
+    <!-- No Recipes State -->
+    @if (recipeService.recipes()!.length === 0) {
+      <div class="no-recipes-container">
+        <div class="no-recipes-icon">🍽️</div>
+        <h3 class="no-recipes-title">No recipes found</h3>
+        <p class="no-recipes-message">
+          It looks like there are no recipes available right now. 
+          Check back later for delicious new content!
+        </p>
+      </div>
+    }
+    
+  </div>
+</div>
+
