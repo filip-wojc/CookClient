@@ -66,11 +66,11 @@
 }
 
 .difficulty-icon {
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .difficulty-text {
-  font-size: 11px;
+  font-size: 13px;
 }
 
 /* Calories Badge */
@@ -80,18 +80,18 @@
   right: 12px;
   background: rgba(99, 102, 241, 0.9);
   color: white;
-  padding: 6px 10px;
+  padding: 8px 12px;
   border-radius: 20px;
   backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
-  gap: 4px;
-  font-size: 12px;
+  gap: 6px;
+  font-size: 14px;
   font-weight: 600;
 }
 
 .calories-icon {
-  font-size: 10px;
+  font-size: 12px;
 }
 
 /* ===================================
@@ -107,7 +107,7 @@
 }
 
 .recipe-title {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 700;
   color: #1f2937;
   margin: 0;
@@ -121,19 +121,19 @@
 .recipe-author {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   color: #6b7280;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 500;
 }
 
 .author-icon {
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .recipe-description {
   color: #4b5563;
-  font-size: 14px;
+  font-size: 1.2rem;
   line-height: 1.5;
   margin: 0;
   display: -webkit-box;
@@ -152,17 +152,17 @@
 }
 
 .products-title {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   color: #374151;
-  margin: 0 0 8px 0;
+  margin: 0 0 10px 0;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 }
 
 .products-icon {
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .products-list {
@@ -175,9 +175,9 @@
 .product-tag {
   background: #f3f4f6;
   color: #374151;
-  padding: 4px 8px;
+  padding: 6px 10px;
   border-radius: 12px;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 500;
   border: 1px solid #e5e7eb;
   transition: all 0.2s ease;
@@ -190,7 +190,7 @@
 
 .no-products {
   color: #9ca3af;
-  font-size: 12px;
+  font-size: 14px;
   font-style: italic;
 }
 
@@ -207,17 +207,17 @@
 .btn-primary,
 .btn-secondary {
   flex: 1;
-  padding: 10px 16px;
+  padding: 12px 18px;
   border-radius: 8px;
   border: none;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 8px;
 }
 
 .btn-primary {
@@ -243,7 +243,7 @@
 }
 
 .btn-icon {
-  font-size: 12px;
+  font-size: 14px;
 }
 
 
@@ -268,18 +268,18 @@
   }
   
   .recipe-title {
-    font-size: 16px;
+    font-size: 18px;
   }
   
   .recipe-description {
-    font-size: 13px;
+    font-size: 18px;
     -webkit-line-clamp: 2;
   }
   
   .btn-primary,
   .btn-secondary {
-    padding: 8px 12px;
-    font-size: 12px;
+    padding: 10px 14px;
+    font-size: 14px;
   }
 }
 
@@ -295,8 +295,8 @@
   
   .difficulty-badge,
   .calories-badge {
-    padding: 4px 8px;
-    font-size: 11px;
+    padding: 6px 10px;
+    font-size: 13px;
   }
   
   .recipe-actions {
@@ -304,7 +304,7 @@
   }
   
   .product-tag {
-    font-size: 10px;
-    padding: 3px 6px;
+    font-size: 12px;
+    padding: 5px 8px;
   }
 }

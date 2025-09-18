@@ -2,25 +2,45 @@
 <div class="recipes-page">
   <div class="recipes-container">
     
-    <!-- Header -->
     <div class="recipes-header">
-      <h1 class="recipes-title">Delicious Recipes</h1>
-      <p class="recipes-subtitle">
+      <div class="left-header">
+        <h1 class="recipes-title">Delicious Recipes</h1>
+        <p class="recipes-subtitle">
         Discover amazing recipes from talented chefs around the world
-      </p>
+        </p>
+      </div>
+      <div class="right-header">
+        <div class="sort-controls">
+      <label class="sort-label">Sort by:</label>
+      
+      <div class="sort-dropdowns">
+        <!-- Sort Field Dropdown -->
+        <select class="sort-select" [(ngModel)]="sortBy" (change)="onSortChange()">
+          <option value="NAME">Name</option>
+          <option value="CALORIES">Calories</option>
+          <option value="DIFFICULTY">Difficulty</option>
+        </select>
+        
+        <!-- Sort Direction Dropdown -->
+        <select class="sort-select sort-direction" [(ngModel)]="sortDirection" (change)="onSortChange()">
+          <option value="ASC">Ascending</option>
+          <option value="DESC">Descending</option>
+        </select>
+      </div>
+    </div>
+      </div>
+      
     </div>
     
-    <!-- Recipes Grid -->
-    @if (recipeService.recipes()!.length > 0) {
+    @if (recipeService.pageData()!.content.length > 0) {
       <div class="recipes-grid">
-        @for (recipe of recipeService.recipes(); track recipe.id) {
+        @for (recipe of recipeService.pageData()!.content; track recipe.id) {
           <app-recipe [recipe]="recipe"></app-recipe>
         }
       </div>
     }
     
-    <!-- No Recipes State -->
-    @if (recipeService.recipes()!.length === 0) {
+    @if (recipeService.pageData()!.content.length === 0) {
       <div class="no-recipes-container">
         <div class="no-recipes-icon">🍽️</div>
         <h3 class="no-recipes-title">No recipes found</h3>
@@ -30,7 +50,86 @@
         </p>
       </div>
     }
+
+    <!-- Pagination Controls -->
+@if (recipeService.pageData()!.totalPages > 1) {
+  <div class="pagination-container">
+    
+    <!-- Previous Button -->
+    <button 
+      class="pagination-btn pagination-prev" 
+      [disabled]="recipeService.pageData()!.page === 0"
+      (click)="onPageChange(recipeService.pageData()!.page - 1)">
+      <span class="pagination-icon">‹</span>
+      <span class="pagination-text">Previous</span>
+    </button>
+    
+    <!-- Page Numbers -->
+    <div class="pagination-numbers">
+      
+      <!-- First page -->
+      @if (getVisiblePages()[0] > 0) {
+        <button 
+          class="pagination-number"
+          [class.active]="0 === recipeService.pageData()!.page"
+          (click)="onPageChange(0)">
+          1
+        </button>
+        
+        @if (getVisiblePages()[0] > 1) {
+          <span class="pagination-ellipsis">...</span>
+        }
+      }
+      
+      <!-- Visible page numbers -->
+      @for (page of getVisiblePages(); track page) {
+        <button 
+          class="pagination-number"
+          [class.active]="page === recipeService.pageData()!.page"
+          (click)="onPageChange(page)">
+          {{ page + 1 }}
+        </button>
+      }
+      
+      <!-- Last page -->
+      @if (getVisiblePages()[getVisiblePages().length - 1] < recipeService.pageData()!.totalPages - 1) {
+        @if (getVisiblePages()[getVisiblePages().length - 1] < recipeService.pageData()!.totalPages - 2) {
+          <span class="pagination-ellipsis">...</span>
+        }
+        
+        <button 
+          class="pagination-number"
+          [class.active]="recipeService.pageData()!.totalPages - 1 === recipeService.pageData()!.page"
+          (click)="onPageChange(recipeService.pageData()!.totalPages - 1)">
+          {{ recipeService.pageData()!.totalPages }}
+        </button>
+      }
+      
+    </div>
+    
+    <!-- Next Button -->
+    <button 
+      class="pagination-btn pagination-next" 
+      [disabled]="!recipeService.pageData()!.hasNext"
+      (click)="onPageChange(recipeService.pageData()!.page + 1)">
+      <span class="pagination-text">Next</span>
+      <span class="pagination-icon">›</span>
+    </button>
     
   </div>
-</div>
+  
+  <!-- Pagination Info -->
+  <div class="pagination-info">
+    <span class="pagination-stats">
+      Page {{ recipeService.pageData()!.page + 1 }} of {{ recipeService.pageData()!.totalPages }}
+      ({{ recipeService.pageData()!.totalElements }} total recipes)
+    </span>
+  </div>
+}
+    
+  </div>
 
+  <button class="floating-add-btn" (click)="onAddRecipe()" title="Add new recipe">
+    <span class="add-icon">+</span>
+  </button>
+</div>

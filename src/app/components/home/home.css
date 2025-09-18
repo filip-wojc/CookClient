@@ -1,11 +1,6 @@
-/* ===================================
-   HOME PAGE STYLES
-   =================================== */
-
 /* Container dla całej strony */
 .recipes-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
   padding: 20px;
 }
 
@@ -15,11 +10,18 @@
   padding: 0 20px;
 }
 
-/* Header sekcja */
 .recipes-header {
-  text-align: center;
   margin-bottom: 40px;
   padding: 40px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+}
+
+.left-header {
+  text-align: left;
+  flex: 1;
 }
 
 .recipes-title {
@@ -37,9 +39,92 @@
   font-size: 1.2rem;
   color: #64748b;
   font-weight: 400;
-  max-width: 600px;
-  margin: 0 auto;
   line-height: 1.6;
+  margin: 0;
+}
+
+.right-header {
+  display: flex;
+  align-items: center;
+  min-width: 300px;
+}
+
+/* ===================================
+   SORT CONTROLS
+   =================================== */
+
+.sort-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.sort-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  white-space: nowrap;
+}
+
+.sort-dropdowns {
+  display: flex;
+  gap: 8px;
+}
+
+.sort-select {
+  padding: 8px 12px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  background: white;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 120px;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M10.293 3.293L6 7.586 1.707 3.293A1 1 0 00.293 4.707l5 5a1 1 0 001.414 0l5-5a1 1 0 10-1.414-1.414z' fill='%236B7280'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 12px;
+  padding-right: 32px;
+}
+
+.sort-select:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.sort-select:hover {
+  border-color: #d1d5db;
+  background-color: #f9fafb;
+}
+
+.sort-direction {
+  min-width: 140px;
+}
+
+/* Option styling */
+.sort-select option {
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #374151;
+}
+
+/* ===================================
+   HOVER EFFECTS
+   =================================== */
+
+.sort-controls:hover {
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
 }
 
 /* ===================================
@@ -265,6 +350,108 @@
   color: white;
 }
 
+.floating-add-btn {
+  position: fixed;
+  bottom: 5%;
+  right: 5%;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+}
+
+.floating-add-btn:hover {
+  transform: translateY(-4px) scale(1.1);
+  box-shadow: 0 12px 32px rgba(102, 126, 234, 0.4);
+  background: linear-gradient(135deg, #5a6fd8 0%, #6b5b95 100%);
+}
+
+.floating-add-btn:active {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+}
+
+.add-icon {
+  font-size: 50px;
+  font-weight: 300;
+  color: white;
+  line-height: 1;
+  transition: transform 0.3s ease;
+}
+
+.floating-add-btn:hover .add-icon {
+  transform: rotate(90deg);
+}
+
+/* Pulse animation */
+.floating-add-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  opacity: 0.7;
+  animation: pulse 2s infinite;
+  z-index: -1;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+/* ===================================
+   RESPONSIVE DESIGN FOR FLOATING BUTTON
+   =================================== */
+
+@media (max-width: 768px) {
+  .floating-add-btn {
+    width: 56px;
+    height: 56px;
+    bottom: 24px;
+    right: 24px;
+  }
+  
+  .add-icon {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .floating-add-btn {
+    width: 52px;
+    height: 52px;
+    bottom: 20px;
+    right: 20px;
+  }
+  
+  .add-icon {
+    font-size: 22px;
+  }
+}
+
 /* ===================================
    RESPONSIVE DESIGN
    =================================== */
@@ -343,76 +530,253 @@
   }
 }
 
+.pagination-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 40px 0 20px 0;
+  padding: 20px;
+}
+
 /* ===================================
-   DARK MODE SUPPORT (bonus)
+   PAGINATION BUTTONS
    =================================== */
 
-@media (prefers-color-scheme: dark) {
-  .recipes-page {
-    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+.pagination-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 44px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background: #f9fafb;
+  border-color: #667eea;
+  color: #667eea;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pagination-btn:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #f3f4f6;
+  color: #9ca3af;
+  border-color: #e5e7eb;
+}
+
+.pagination-prev,
+.pagination-next {
+  font-weight: 600;
+}
+
+.pagination-icon {
+  font-size: 18px;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.pagination-text {
+  font-size: 14px;
+}
+
+
+.pagination-numbers {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0 12px;
+}
+
+.pagination-number {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.pagination-number:hover {
+  background: #f9fafb;
+  border-color: #667eea;
+  color: #667eea;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pagination-number.active {
+  background: #667eea;
+  border-color: #667eea;
+  color: white;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  transform: translateY(-1px);
+}
+
+.pagination-number.active:hover {
+  background: #5a67d8;
+  border-color: #5a67d8;
+}
+
+.pagination-ellipsis {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: #9ca3af;
+  font-size: 16px;
+  font-weight: bold;
+  user-select: none;
+}
+
+.pagination-info {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.pagination-stats {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-size: 13px;
+  color: #6b7280;
+  font-weight: 500;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+
+.pagination-container {
+  animation: fadeInUp 0.4s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+@media (max-width: 768px) {
+  .pagination-container {
+    gap: 6px;
+    margin: 30px 0 15px 0;
+    padding: 15px 10px;
+    flex-wrap: wrap;
   }
   
-  .recipes-title {
-    background: linear-gradient(135deg, #818cf8 0%, #c084fc 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+  .pagination-btn {
+    padding: 8px 12px;
+    font-size: 13px;
+    min-height: 40px;
   }
   
-  .recipes-subtitle {
-    color: #94a3b8;
+  .pagination-text {
+    display: none; /* Hide text on mobile, keep only icons */
   }
   
-  .recipes-controls {
-    background: #1e293b;
-    border: 1px solid #334155;
+  .pagination-icon {
+    font-size: 16px;
   }
   
-  .recipes-count {
-    color: #94a3b8;
+  .pagination-number {
+    width: 40px;
+    height: 40px;
+    font-size: 13px;
   }
   
-  .recipes-count-number {
-    color: #f8fafc;
+  .pagination-ellipsis {
+    width: 40px;
+    height: 40px;
+    font-size: 14px;
   }
   
-  .recipes-search {
-    background: #334155;
-    border-color: #475569;
-    color: #f8fafc;
+  .pagination-numbers {
+    margin: 0 8px;
+    gap: 3px;
   }
   
-  .recipes-search:focus {
-    border-color: #818cf8;
+  .pagination-stats {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pagination-container {
+    gap: 4px;
+    padding: 10px 5px;
   }
   
-  .filter-btn {
-    background: #334155;
-    border-color: #475569;
-    color: #94a3b8;
+  .pagination-btn {
+    padding: 8px 10px;
+    min-height: 36px;
   }
   
-  .filter-btn:hover,
-  .filter-btn.active {
-    border-color: #818cf8;
-    background: #818cf8;
+  .pagination-number {
+    width: 36px;
+    height: 36px;
+    font-size: 12px;
   }
   
-  .error-container,
-  .no-recipes-container {
-    background: #1e293b;
-    border: 1px solid #334155;
+  .pagination-ellipsis {
+    width: 36px;
+    height: 36px;
   }
   
-  .error-title {
-    color: #f87171;
+  .pagination-numbers {
+    margin: 0 4px;
+    gap: 2px;
   }
   
-  .no-recipes-title {
-    color: #f8fafc;
+  /* Na bardzo małych ekranach pokaż mniej numerów stron */
+  .pagination-number:nth-child(n+6) {
+    display: none;
   }
-  
-  .error-message,
-  .no-recipes-message {
-    color: #94a3b8;
-  }
+}
+
+/* ===================================
+   LOADING STATE
+   =================================== */
+
+.pagination-container.loading {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.pagination-container.loading .pagination-btn,
+.pagination-container.loading .pagination-number {
+  cursor: default;
 }

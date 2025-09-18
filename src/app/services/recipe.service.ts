@@ -10,14 +10,14 @@ import { PageResponse } from "../models/responses/page.response";
 export class RecipeService{
     http = inject(HttpClient)
 
-    recipes = signal<RecipeDto[] | null>(null)
+    pageData = signal<PageResponse<RecipeDto> | null>(null)
 
     private baseUrl = 'http://localhost:8080/api/recipe'
 
-    loadRecipes() {
-        return this.http.get<PageResponse<RecipeDto>>(`${this.baseUrl}?sortBy=CALORIES&sortDirection=DESC&limit=10&pageNumber=0`).pipe(
+    loadRecipes(sortBy: string, sortDirection: string, page: number) {
+        return this.http.get<PageResponse<RecipeDto>>(`${this.baseUrl}?sortBy=${sortBy}&sortDirection=${sortDirection}&limit=6&pageNumber=${page}`).pipe(
             tap(response => {
-                this.recipes.set(response.content)
+                this.pageData.set(response)
             })
         )
     }

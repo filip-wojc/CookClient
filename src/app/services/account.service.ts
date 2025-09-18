@@ -53,7 +53,8 @@ export class AccountService {
     const refreshToken = this.getRefreshToken();
     if (!refreshToken) {
       this.logout();
-      console.log('No refresh tokenm available')
+      console.log('No refresh token available')
+      return throwError(() => new Error('No refresh token available'))
     }
   
     const payload = { refreshToken };
@@ -82,17 +83,17 @@ export class AccountService {
     if (!userString) return;
     
     const user = JSON.parse(userString);
-    const expirationDate = new Date(user.refreshTokenExpiration);
+    const expirationDate = new Date(user.tokenExpiration);
     
-    // Set timeout to 1 minute before token expires
-    const timeout = expirationDate.getTime() - Date.now() - (60 * 1000);
+    const timeout = expirationDate.getTime() - Date.now() - (5 * 60 * 1000);
     console.log(`Token refresh scheduled in ${Math.round(timeout/1000)} seconds`);
     
+    if (timeout > 0) {
     this.refreshTokenTimeout = setTimeout(() => {
-      console.log('Refreshing token...');
       this.refreshToken().subscribe();
-    }, Math.max(1, timeout)); // Ensure timeout is at least 1ms
+    }, timeout);
   }
+}
 
   getToken(): string | null {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
