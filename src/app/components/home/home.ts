@@ -1,13 +1,14 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { AccountService } from '../../services/account.service';
 import { RecipeDto } from '../../models/dtos/recipe.dto';
 import { RecipeService } from '../../services/recipe.service';
 import { Recipe } from './recipe/recipe';
 import { FormsModule } from '@angular/forms';
+import { RecipeDetails } from './recipe/recipe-details/recipe-details';
 
 @Component({
   selector: 'app-home',
-  imports: [Recipe, FormsModule],
+  imports: [Recipe, FormsModule, RecipeDetails],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
@@ -20,7 +21,11 @@ export class Home implements OnInit{
    sortDirection = signal<string>('ASC');
    newPage = signal<number>(0)
 
+   recipeToShowDetails = signal<RecipeDto | null>(null)
+
    recipeService = inject(RecipeService)
+
+   isShowingDetails = signal<boolean>(false)
 
    onAddRecipe() {
     
@@ -112,5 +117,14 @@ export class Home implements OnInit{
     if (pageData && pageData.hasNext) {
       this.onPageChange(pageData.page + 1);
     }
+  }
+
+  onShowDetails(event: number){
+    this.isShowingDetails.set(true)
+    this.recipeToShowDetails.set(this.recipeService.pageData()?.content.find(r => r.id === event)!)
+  }
+
+  onCloseDetails() {
+    this.isShowingDetails.set(false)
   }
 }

@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output, signal } from '@angular/core';
 import { RecipeDto } from '../../../models/dtos/recipe.dto';
 import { NgClass, TitleCasePipe } from '@angular/common';
 
@@ -10,6 +10,9 @@ import { NgClass, TitleCasePipe } from '@angular/common';
 })
 export class Recipe {
     recipe = input.required<RecipeDto>()
+
+    showDetails = output<number>()
+    
 
     getDifficultyClass(): string {
     const difficulty = this.recipe().difficulty.toLowerCase();
@@ -30,4 +33,12 @@ export class Recipe {
     }
   }
 
+  showRecipeReviews(){
+    alert("To do recipe detail page")
+  }
+
+  onShowDetails() {
+    this.showDetails.emit(this.recipe().id)
+  }
+  
 }

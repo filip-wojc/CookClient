@@ -1,0 +1,68 @@
+<div class="backdrop" (click)="onCancel()"></div>
+<dialog open>
+    <div class="modal-header">
+        <div class="header-info">
+            <h2 class="modal-title">{{recipe()!.name}}</h2>
+            <div class="author-info">Author: {{recipe()!.author.fullname}}</div>
+        </div>
+        <button class="close-button" (click)="onCancel()" title="Close">
+            ×
+        </button>
+    </div>
+    
+    <div class="modal-content">
+        <div class="recipe-stats">
+            <div class="stat-item">
+                <div class="stat-icon">🔥</div>
+                <div class="stat-value">{{recipe()!.calories}}</div>
+                <div class="stat-label">Calories</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon">⭐</div>
+                <div class="stat-value">
+                    <span class="difficulty-badge" 
+                          [ngClass]="'difficulty-' + recipe()!.difficulty.toLowerCase()">
+                        {{recipe()!.difficulty}}
+                    </span>
+                </div>
+                <div class="stat-label">Difficulty</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon">🛒</div>
+                <div class="stat-value">{{recipe()!.products.length}}</div>
+                <div class="stat-label">Ingredients</div>
+            </div>
+        </div>
+
+        <div class="content-sections">
+            <div class="ingredients-section">
+                <h3 class="section-title">
+                    <div class="section-icon">🥘</div>
+                    Ingredients
+                </h3>
+                <div class="ingredients-grid">
+                    @for (product of recipe()!.products; track product.id) {
+                        <div class="ingredient-item">
+                            <div class="ingredient-bullet"></div>
+                            {{product.name}}
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="description-section">
+                <h3 class="section-title">
+                    <div class="section-icon">📝</div>
+                    Recipe Description
+                </h3>
+                <p class="description">
+                    {{recipe()!.description}}
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="onCancel()">Close</button>
+    </div>
+</dialog>

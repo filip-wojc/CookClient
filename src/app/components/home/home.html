@@ -1,3 +1,12 @@
+@if(isShowingDetails()) {
+  <app-recipe-details 
+  [recipe]="recipeToShowDetails()!"
+  (close)="onCloseDetails()"
+  >
+  </app-recipe-details>
+}
+
+
 <!-- home.html -->
 <div class="recipes-page">
   <div class="recipes-container">
@@ -35,7 +44,7 @@
     @if (recipeService.pageData()!.content.length > 0) {
       <div class="recipes-grid">
         @for (recipe of recipeService.pageData()!.content; track recipe.id) {
-          <app-recipe [recipe]="recipe"></app-recipe>
+          <app-recipe [recipe]="recipe" (showDetails)="onShowDetails($event)"></app-recipe>
         }
       </div>
     }
@@ -107,7 +116,6 @@
       
     </div>
     
-    <!-- Next Button -->
     <button 
       class="pagination-btn pagination-next" 
       [disabled]="!recipeService.pageData()!.hasNext"
@@ -118,7 +126,6 @@
     
   </div>
   
-  <!-- Pagination Info -->
   <div class="pagination-info">
     <span class="pagination-stats">
       Page {{ recipeService.pageData()!.page + 1 }} of {{ recipeService.pageData()!.totalPages }}

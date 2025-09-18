@@ -63,14 +63,14 @@
 
     <!-- Action Buttons -->
     <div class="recipe-actions">
-      <button class="btn-primary">
+      <button class="btn-primary" (click)="onShowDetails()">
         <span class="btn-icon">📖</span>
-        View Recipe
+        View full description
       </button>
       
-      <button class="btn-secondary">
-        <span class="btn-icon">❤️</span>
-        Save
+      <button class="btn-secondary" (click)="showRecipeReviews()">
+        <span class="btn-icon">⭐</span>
+        Show reviews
       </button>
     </div>
   </div>
