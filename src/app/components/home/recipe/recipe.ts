@@ -12,6 +12,7 @@ export class Recipe {
     recipe = input.required<RecipeDto>()
 
     showDetails = output<number>()
+    showReviews = output<number>()
     
 
     getDifficultyClass(): string {
@@ -33,8 +34,30 @@ export class Recipe {
     }
   }
 
+  getRatingStars() {
+  const rating = this.recipe().rating;
+  const stars = [];
+  const fullStars = Math.floor(rating / 2); 
+  const hasHalfStar = (rating % 2) >= 1;
+  
+  for (let i = 0; i < fullStars; i++) {
+    stars.push({ icon: '★', class: 'filled' });
+  }
+  
+  if (hasHalfStar) {
+    stars.push({ icon: '★', class: 'half' });
+  }
+  
+  const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+  for (let i = 0; i < emptyStars; i++) {
+    stars.push({ icon: '★', class: 'empty' });
+  }
+  
+  return stars;
+}
+
   showRecipeReviews(){
-    alert("To do recipe detail page")
+    this.showReviews.emit(this.recipe().id)
   }
 
   onShowDetails() {

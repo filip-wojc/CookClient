@@ -6,6 +6,14 @@
   </app-recipe-details>
 }
 
+@if(isShowingReviews()) {
+  <app-recipe-reviews
+  (close)="onCloseReviews()"
+  [reviews]="reviewsToShow()"
+  >
+  </app-recipe-reviews>
+}
+
 
 <!-- home.html -->
 <div class="recipes-page">
@@ -44,7 +52,7 @@
     @if (recipeService.pageData()!.content.length > 0) {
       <div class="recipes-grid">
         @for (recipe of recipeService.pageData()!.content; track recipe.id) {
-          <app-recipe [recipe]="recipe" (showDetails)="onShowDetails($event)"></app-recipe>
+          <app-recipe [recipe]="recipe" (showDetails)="onShowDetails($event)" (showReviews)="onShowReviews($event)"></app-recipe>
         }
       </div>
     }

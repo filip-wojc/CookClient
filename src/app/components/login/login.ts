@@ -21,6 +21,8 @@ export class Login {
 
   username = signal<string>('')
   password = signal<string>('')
+  
+  error = signal<string>('')
 
   onUsernameChange(event: Event) {
     const value = (event.target as HTMLInputElement).value
@@ -45,9 +47,14 @@ export class Login {
         this.router.navigateByUrl('/home')
       },
       error: (error) => {
+        this.error.set(error.error.message)
         console.log('error ' + error.error.message)
       }
     })
+  }
+
+  closeError() {
+    this.error.set('')
   }
 
   togglePassword() {

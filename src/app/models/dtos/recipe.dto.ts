@@ -7,6 +7,7 @@ export interface RecipeDto {
     description: string
     difficulty: string
     calories: number
+    rating: number
     imageUrl: string
     author: UserDto
     products: ProductDto[]

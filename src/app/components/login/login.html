@@ -1,4 +1,5 @@
-<div class="outer-container">
+<div class="login-page-container">
+  <div class="outer-container">
     <h1>Sign in</h1>
     <form (ngSubmit)="onSubmitLogin()">
         <div class="input-boxes">
@@ -27,4 +28,11 @@
         <h3>Don't have an account yet?</h3>
         <button (click)="changeToRegisterForm()">Create new account</button>
     </div>
+
+    @if (error().length !== 0) {
+    <div class="error-container" (click)="closeError()">
+        <p>{{error()}}</p>
+    </div>
+    }
+  </div>
 </div>

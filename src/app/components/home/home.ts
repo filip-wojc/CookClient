@@ -5,10 +5,13 @@ import { RecipeService } from '../../services/recipe.service';
 import { Recipe } from './recipe/recipe';
 import { FormsModule } from '@angular/forms';
 import { RecipeDetails } from './recipe/recipe-details/recipe-details';
+import { RecipeReviews } from './recipe/recipe-reviews/recipe-reviews';
+import { ReviewDto } from '../../models/dtos/review.dto';
+import { ReviewService } from '../../services/review.service';
 
 @Component({
   selector: 'app-home',
-  imports: [Recipe, FormsModule, RecipeDetails],
+  imports: [Recipe, FormsModule, RecipeDetails, RecipeReviews],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
@@ -22,10 +25,13 @@ export class Home implements OnInit{
    newPage = signal<number>(0)
 
    recipeToShowDetails = signal<RecipeDto | null>(null)
+   reviewsToShow = signal<ReviewDto[]>([])
 
    recipeService = inject(RecipeService)
+   reviewService = inject(ReviewService)
 
    isShowingDetails = signal<boolean>(false)
+   isShowingReviews = signal<boolean>(false)
 
    onAddRecipe() {
     
@@ -43,7 +49,6 @@ export class Home implements OnInit{
   onPageChange(newPage: number) {
     console.log('Changing to page:', newPage);
     
-    // Sprawdź czy nowa strona jest poprawna
     const pageData = this.recipeService.pageData();
     if (!pageData) return;
     
@@ -61,7 +66,6 @@ export class Home implements OnInit{
     ).subscribe({
       next: (response) => {
         console.log('Page changed successfully:', response);
-        // Scroll to top po zmianie strony
         window.scrollTo({ top: 0, behavior: 'smooth' });
       },
       error: (error) => {
@@ -126,5 +130,21 @@ export class Home implements OnInit{
 
   onCloseDetails() {
     this.isShowingDetails.set(false)
+  }
+
+  onShowReviews(event: number) {
+    this.reviewService.loadReviews(event, 'ASC', 0).subscribe({
+        next: () => {
+            this.reviewsToShow.set(this.reviewService.pageData()?.content || [])
+            this.isShowingReviews.set(true)
+        },
+        error: (error) => {
+            console.error('Error loading reviews:', error)
+        }
+    })
+}
+
+  onCloseReviews() {
+    this.isShowingReviews.set(false)
   }
 }

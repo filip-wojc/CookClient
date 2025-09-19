@@ -144,6 +144,109 @@
 }
 
 /* ===================================
+   RATING SECTION
+   =================================== */
+
+.recipe-rating {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  margin: 8px 0;
+}
+
+.rating-stars {
+  display: flex;
+  gap: 2px;
+}
+
+.star {
+  font-size: 16px;
+  transition: all 0.2s ease;
+}
+
+.star.filled {
+  color: #fbbf24;
+  text-shadow: 0 1px 3px rgba(251, 191, 36, 0.4);
+}
+
+.star.half {
+  background: linear-gradient(90deg, #fbbf24 50%, #d1d5db 50%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
+}
+
+.star.empty {
+  color: #d1d5db;
+}
+
+.rating-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.rating-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1f2937;
+  line-height: 1;
+}
+
+.rating-label {
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Hover effect dla całej sekcji ratingu */
+.recipe-rating:hover {
+  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.recipe-rating:hover .star.filled {
+  color: #f59e0b;
+  transform: scale(1.1);
+}
+
+/* Animacja dla gwiazdek */
+.star:hover {
+  transform: scale(1.2);
+}
+
+/* ===================================
+   RESPONSIVE DESIGN FOR RATING
+   =================================== */
+
+@media (max-width: 480px) {
+  .recipe-rating {
+    padding: 10px 12px;
+  }
+  
+  .star {
+    font-size: 14px;
+  }
+  
+  .rating-value {
+    font-size: 16px;
+  }
+  
+  .rating-label {
+    font-size: 11px;
+  }
+}
+
+/* ===================================
    PRODUCTS/INGREDIENTS SECTION
    =================================== */
 
