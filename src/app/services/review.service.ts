@@ -22,4 +22,12 @@ export class ReviewService {
             )
         }
 
+    deleteReview(reviewId: number) {
+        return this.http.delete<PageResponse<ReviewDto>>(`${this.baseUrl}/${reviewId}`).pipe(
+                tap(response => {
+                    
+                })
+            )
+    }
+
 }

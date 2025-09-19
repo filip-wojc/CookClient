@@ -15,7 +15,7 @@
         <button class="add-review-btn" (click)="onAddReview()" title="Add your review">
             <span class="add-review-icon">+</span>
             <span class="add-review-text">Add Review</span>
-        </button>
+         </button>
     </div>
     <div class="no-reviews">
             <div class="no-reviews-icon">📝</div>
@@ -40,15 +40,23 @@
                 <div class="stat-value">{{ getMostCommonRating() }}</div>
                 <div class="stat-label">Most Common</div>
             </div>
-            <button class="add-review-btn" (click)="onAddReview()" title="Add your review">
-                <span class="add-review-icon">+</span>
-                <span class="add-review-text">Add Review</span>
-            </button>
+             @if(canAddReview()) {
+        <button class="add-review-btn" (click)="onAddReview()" title="Add your review">
+            <span class="add-review-icon">+</span>
+            <span class="add-review-text">Add Review</span>
+         </button>
+        } 
+        @else {
+        <button class="delete-review-btn" (click)="onDeleteReview()" title="DeleteReview">
+            <span class="add-review-icon">x</span>
+            <span class="add-review-text">Delete Review</span>
+         </button>
+        }
         </div>
 
         <div class="reviews-content">
             <div class="reviews-list">
-                @for (review of reviews(); track review.id) {
+                @for (review of currentReviews(); track review.id) {
                     <div class="review-item">
                         <div class="review-header">
                             <div class="review-author">

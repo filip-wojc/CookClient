@@ -1,5 +1,8 @@
-import { Component, input, output } from '@angular/core';
+import { Component, computed, inject, input, OnInit, output, signal } from '@angular/core';
 import { ReviewDto } from '../../../../models/dtos/review.dto';
+import { ReviewService } from '../../../../services/review.service';
+import { AccountService } from '../../../../services/account.service';
+import { RecipeService } from '../../../../services/recipe.service';
 
 @Component({
   selector: 'app-recipe-reviews',
@@ -7,9 +10,22 @@ import { ReviewDto } from '../../../../models/dtos/review.dto';
   templateUrl: './recipe-reviews.html',
   styleUrl: './recipe-reviews.css'
 })
-export class RecipeReviews {
-   close = output<void>()
+export class RecipeReviews implements OnInit{
+  ngOnInit(): void {
+    this.currentReviews.set(this.reviews())
+    this.checkIfAddingReviewIsPossible()
+  }
+
+  close = output<void>()
   reviews = input<ReviewDto[]>([])
+  currentReviews = signal<ReviewDto[]>([])
+
+  reviewService = inject(ReviewService)
+  accountService = inject(AccountService)
+  recipeService = inject(RecipeService)
+
+  canAddReview = signal<boolean>(false)
+
 
   onCancel() {
     this.close.emit()
@@ -19,9 +35,27 @@ export class RecipeReviews {
     alert("add review in progress")
   }
 
+  checkIfAddingReviewIsPossible() {
+    const loggedUserId = this.accountService.currentUser()?.userId
+    const result = !this.reviews().some(r => r.author.id === loggedUserId)
+    result ? this.canAddReview.set(true) : this.canAddReview.set(false)
+  }
+
+  onDeleteReview() {
+    const loggedUserId = this.accountService.currentUser()?.userId
+    const reviewToDelete = this.reviews().find(r => r.author.id === loggedUserId)
+    this.reviewService.deleteReview(reviewToDelete!.id).subscribe({
+      next: () => {
+        this.currentReviews.set(this.currentReviews().filter(r => r.id !== reviewToDelete!.id))
+        this.recipeService.loadRecipes("NAME", "ASC", 0).subscribe()
+        this.canAddReview.set(true)
+      }
+    })
+  }
+
   getRatingStars(rating: number): boolean[] {
     const stars = [];
-    const fullStars = Math.floor(rating / 2); // Konwersja z 10 na 5 gwiazdek
+    const fullStars = Math.floor(rating / 2);
     
     for (let i = 0; i < 5; i++) {
       stars.push(i < fullStars);
