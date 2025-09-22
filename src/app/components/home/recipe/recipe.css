@@ -141,6 +141,7 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   flex: 1;
+  white-space: pre-line;
 }
 
 /* ===================================

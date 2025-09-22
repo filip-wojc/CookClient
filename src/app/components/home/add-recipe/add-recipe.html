@@ -73,7 +73,7 @@
                         (change)="onImageSelected($event)">
                     <label for="recipe-image" class="file-label">
                         <span class="file-icon">📁</span>
-                        <span class="file-text">{{ imageFileName || 'Choose image' }}</span>
+                        <span class="file-text">{{ imageFileName() || 'Choose image' }}</span>
                     </label>
                     @if (imagePreview()) {
                         <img [src]="imagePreview()" class="image-preview" alt="Preview">

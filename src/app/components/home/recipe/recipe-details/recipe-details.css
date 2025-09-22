@@ -270,6 +270,7 @@ dialog {
     word-wrap: break-word;
     overflow-wrap: break-word;
     hyphens: auto;
+    white-space: pre-line;
 }
 
 .description::first-letter {

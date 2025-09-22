@@ -19,7 +19,7 @@
                 [value]="password()"
                 (input)="onPasswordChange($event)"
                 >
-                <button (click)="togglePassword()">{{passwordVisibleText()}}</button>
+                <button type="button" (click)="togglePassword()">{{passwordVisibleText()}}</button>
             </div>            
         </div>
         <button type="submit">Sign in</button>
