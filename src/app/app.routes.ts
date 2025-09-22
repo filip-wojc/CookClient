@@ -7,5 +7,5 @@ import { Autologin } from './components/autologin/autologin';
 export const routes: Routes = [
     {path: '', component: Autologin},
     {path: 'login', component: Login},
-    {path: 'home', component: Home, canActivate: [authGuard]}
+    {path: 'home', component: Home}
 ];

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ReviewService } from '../../../../../services/review.service';
 import { CreateReviewDto } from '../../../../../models/dtos/create-review.dto';
 import { ReviewDto } from '../../../../../models/dtos/review.dto';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-review',
@@ -23,6 +24,7 @@ export class AddReview {
   onNewReview = output<ReviewDto>()
 
   reviewService = inject(ReviewService)
+  toastr = inject(ToastrService)
 
   constructor() {
     effect(() => {
@@ -60,6 +62,9 @@ export class AddReview {
     this.reviewService.addReview(this.recipeId(), createDto).subscribe({
       next: (response: ReviewDto) => {
         this.onNewReview.emit(response)
+      },
+      error: (error) => {
+        this.toastr.error(error.error.message)
       }
     })
   }

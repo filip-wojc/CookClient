@@ -4,6 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { catchError, map, Observable, throwError } from "rxjs";
 import { LoginResponse } from "../models/responses/login.response";
 import { Router, RouterOutlet } from "@angular/router";
+import { UserDto } from "../models/dtos/user.dto";
 
 @Injectable({
     providedIn: 'root'
@@ -11,6 +12,7 @@ import { Router, RouterOutlet } from "@angular/router";
 export class AccountService {
 
     currentUser = signal<LoginResponse | null>(null)
+    currentUserDto = signal<UserDto | null>(null)
     isRefreshingToken = signal<boolean>(false)
     private refreshTokenTimeout: any
 
@@ -21,14 +23,22 @@ export class AccountService {
 
     private baseUrl = 'http://localhost:8080/api/auth'
 
+    getCurrentUserDto() {
+      return this.http.get<UserDto>(`${this.baseUrl}`).subscribe({
+        next: (user) => {
+          this.currentUserDto.set(user)
+        }
+      })
+    }
+
     login(payload: LoginRequest) {
         return this.http.post<LoginResponse>(`${this.baseUrl}/login`, payload).pipe(
       map((response: LoginResponse) => {
         console.log('Login successful, response:', response);
         const user = this.setUserData(response);
         this.startRefreshTokenTimer();
+        this.getCurrentUserDto()
         this.currentUser.set(user); 
-        
         console.log(user)
       })
     );
@@ -66,7 +76,8 @@ export class AccountService {
           ...user,
           ...response
         });
-        this.currentUser.set(updatedUser); // Make sure to update the current user
+        this.currentUser.set(updatedUser);
+        this.getCurrentUserDto()
         this.startRefreshTokenTimer();
         this.isRefreshingToken.set(false);
       }),
@@ -106,9 +117,9 @@ export class AccountService {
   }
 
   logout() {
-    // Clear user data
     localStorage.removeItem('user');
     this.currentUser.set(null);
+    this.currentUserDto.set(null)
     this.stopRefreshTokenTimer();
     this.router.navigateByUrl('/login');
   }

@@ -23,6 +23,34 @@
   flex: 1;
 }
 
+.logout-btn {
+  padding: 10px 20px;
+  border: 0;
+  border-radius: 6px;
+  margin-top: 20px;
+  cursor: pointer;
+  background-color: rgb(230, 46, 46);
+  font-size: large;
+}
+
+.logout-btn:hover {
+  background-color: rgb(230, 107, 107);
+}
+
+.login-btn {
+  padding: 10px 20px;
+  border: 0;
+  border-radius: 6px;
+  margin-top: 20px;
+  cursor: pointer;
+  background-color: rgb(236, 233, 27);
+  font-size: large;
+}
+
+.login-btn:hover {
+  background-color: rgb(241, 229, 118);
+}
+
 .recipes-title {
   font-size: 3rem;
   font-weight: 800;

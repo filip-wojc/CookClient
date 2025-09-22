@@ -23,10 +23,24 @@
     
     <div class="recipes-header">
       <div class="left-header">
-        <h1 class="recipes-title">Delicious Recipes</h1>
+        @if (accountService.currentUserDto()) {
+          <h1 class="recipes-title">Welcome {{accountService.currentUserDto()?.username}}</h1>
+        } @else {
+          <h1 class="recipes-title">Welcome</h1>
+        }
+        
         <p class="recipes-subtitle">
         Discover amazing recipes from talented chefs around the world
         </p>
+        @if (accountService.currentUserDto()) {
+        <button (click)="accountService.logout()" class="logout-btn">
+          Logout
+        </button>
+        } @else {
+        <button (click)="this.router.navigateByUrl('/login')" class="login-btn">
+          Login
+        </button>
+        }
       </div>
       <div class="right-header">
         <div class="sort-controls">
@@ -146,7 +160,9 @@
     
   </div>
 
+  @if (this.accountService.currentUserDto()) {
   <button class="floating-add-btn" (click)="onAddRecipe()" title="Add new recipe">
     <span class="add-icon">+</span>
   </button>
+  }
 </div>

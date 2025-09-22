@@ -27,6 +27,9 @@
     <div class="bottom-container">
         <h3>Don't have an account yet?</h3>
         <button (click)="changeToRegisterForm()">Create new account</button>
+        <button (click)="this.router.navigateByUrl('/')">
+            Explore recipes now
+        </button>
     </div>
 
     @if (error().length !== 0) {

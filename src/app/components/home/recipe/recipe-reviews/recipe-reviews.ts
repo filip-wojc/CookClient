@@ -4,6 +4,7 @@ import { ReviewService } from '../../../../services/review.service';
 import { AccountService } from '../../../../services/account.service';
 import { AddReview } from './add-review/add-review';
 import { RecipeDto } from '../../../../models/dtos/recipe.dto';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-recipe-reviews',
@@ -68,7 +69,7 @@ export class RecipeReviews implements OnInit{
   }
 
   onDeleteReview() {
-    const reviewToDelete = this.reviews().find(r => r.author.id === this.currentUserId());
+    const reviewToDelete = this.currentReviews().find(r => r.author.id === this.currentUserId());
     if (!reviewToDelete) return;
 
     this.reviewService.deleteReview(reviewToDelete.id).subscribe({

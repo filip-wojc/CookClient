@@ -8,6 +8,8 @@ import { RecipeDetails } from './recipe/recipe-details/recipe-details';
 import { RecipeReviews } from './recipe/recipe-reviews/recipe-reviews';
 import { ReviewDto } from '../../models/dtos/review.dto';
 import { ReviewService } from '../../services/review.service';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +19,13 @@ import { ReviewService } from '../../services/review.service';
 })
 export class Home implements OnInit{
    ngOnInit(): void {
-     this.recipeService.loadRecipes(this.sortBy(), this.sortDirection(), 0).subscribe()
+    
+    var token = this.accountService.getToken()
+    console.log(token)
+    if (token) {
+      this.accountService.refreshToken().subscribe()
+    }
+    this.recipeService.loadRecipes(this.sortBy(), this.sortDirection(), 0).subscribe()
    }
 
    sortBy = signal<string>('NAME');
@@ -29,13 +37,16 @@ export class Home implements OnInit{
 
    recipeService = inject(RecipeService)
    reviewService = inject(ReviewService)
+   accountService = inject(AccountService)
+   router = inject(Router)
+   toastr = inject(ToastrService)
 
    isShowingDetails = signal<boolean>(false)
    isShowingReviews = signal<boolean>(false)
    recipeForReviews = signal<RecipeDto | null>(null)
 
    onAddRecipe() {
-    
+    alert("to do")
    }
 
 

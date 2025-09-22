@@ -21,7 +21,7 @@
     }
     @else {
     @if (currentReviews().length === 0) {
-        @if (!isUserAuthor()) {
+        @if (!isUserAuthor() && this.currentUserId()) {
             <div class="add-review-section">
         <button class="add-review-btn" (click)="onAddReview()" title="Add your review">
             <span class="add-review-icon">+</span>
@@ -53,17 +53,19 @@
                 <div class="stat-label">Most Common</div>
             </div>
             @if (!isUserAuthor()) {
-                @if (canAddReview()) {
+                @if (canAddReview() && this.currentUserId()) {
                 <button class="add-review-btn" (click)="onAddReview()">
                     <span class="add-review-icon">+</span>
                     <span class="add-review-text">Add Review</span>
                 </button>
             }
             @else {
+                @if (this.currentUserId()) {
                 <button class="delete-review-btn" (click)="onDeleteReview()">
                     <span class="add-review-icon">×</span>
                     <span class="add-review-text">Delete Review</span>
                 </button>
+                } 
             }
         }
         </div>
