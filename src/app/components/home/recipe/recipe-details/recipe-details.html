@@ -70,6 +70,16 @@
     </div>
 
     <div class="modal-footer">
+        @if(isUserAuthor()) {
+            <button class="btn btn-secondary" id="delete-btn" (click)="deleteRecipe()" [disabled]="isDeleting()">
+                 @if (isDeleting()) {
+                    <span class="spinner"></span>
+                    Deleting...
+                } @else {
+                    Delete Recipe
+                }
+            </button>
+        }   
         <button class="btn btn-secondary" (click)="onCancel()">Close</button>
     </div>
 </dialog>

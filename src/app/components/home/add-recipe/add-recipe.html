@@ -125,7 +125,7 @@
                 <button 
                 type="submit" 
                 class="btn-submit"
-                [disabled]="!isFormValid() || isSubmitting()"
+                [disabled]="!isFormValid() || isSubmitting() || isSubmitting()"
                 (click)="onSubmit()">
                 @if (isSubmitting()) {
                     <span class="spinner"></span>

@@ -30,4 +30,12 @@ export class RecipeService{
             })
         )
     }
+
+    deleteRecipe(recipeId: number) {
+        return this.http.delete(`${this.baseUrl}/${recipeId}`).pipe(
+            tap(response => {
+                
+            })
+        )
+    }
 }

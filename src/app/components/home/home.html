@@ -2,6 +2,7 @@
   <app-recipe-details 
   [recipe]="recipeToShowDetails()!"
   (close)="onCloseDetails()"
+  (recipeDeleted)="this.recipeService.loadRecipes(this.sortBy(), this.sortDirection(), 0).subscribe()"
   >
   </app-recipe-details>
 }

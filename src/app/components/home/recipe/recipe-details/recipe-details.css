@@ -281,7 +281,7 @@ dialog {
 }
 
 .modal-footer {
-    padding: 16px 24px 20px 24px;
+    
     display: flex;
     justify-content: flex-end;
     gap: 12px;
@@ -310,6 +310,16 @@ dialog {
 .btn-secondary:hover {
     background: rgba(139, 139, 184, 0.1);
     color: #c2c9e1;
+}
+
+#delete-btn {
+    background-color: #471515;
+    color: #b4a3a3;
+}
+
+#delete-btn:hover {
+    background-color: #8b3636;
+    color: #b4a3a3;
 }
 
 /* Responsive design */
@@ -724,4 +734,20 @@ dialog {
     .recipe-image-section {
         height: 180px;
     }
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
