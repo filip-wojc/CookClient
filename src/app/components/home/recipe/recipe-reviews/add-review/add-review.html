@@ -1,0 +1,85 @@
+<div class="add-review-form">
+    <div class="form-header">
+        <h3 class="form-title">Share Your Experience</h3>
+        <p class="form-subtitle">Tell us what you think about this recipe</p>
+    </div>
+
+    <form class="review-form">
+        <div class="form-group">
+            <label class="form-label" for="rating">
+                Rating
+                <span class="required">*</span>
+            </label>
+            <div class="rating-input">
+                <div class="rating-stars-input">
+                    @for (num of [1,2,3,4,5,6,7,8,9,10]; track num) {
+                        <button 
+                            type="button"
+                            class="star-btn"
+                            [class.selected]="num <= selectedRating()"
+                            (click)="setRating(num)"
+                            title="Rate {{ num }}/10">
+                            ★
+                        </button>
+                    }
+                </div>
+                <div class="rating-display">
+                    {{ selectedRating() }}/10
+                </div>
+            </div>
+        </div>
+
+        <!-- Title Input -->
+        <div class="form-group">
+            <label class="form-label" for="review-title">
+                Review Title
+                <span class="required">*</span>
+            </label>
+            <input 
+                type="text" 
+                id="review-title"
+                class="form-input"
+                placeholder="Sum up your experience in a few words..."
+                [(ngModel)]="reviewTitle"
+                name="title"
+                maxlength="100"
+                required>
+            <div class="char-counter">{{ reviewTitle().length }}/100</div>
+        </div>
+
+        <!-- Review Content -->
+        <div class="form-group">
+            <label class="form-label" for="review-content">
+                Your Review
+                <span class="required">*</span>
+            </label>
+            <textarea 
+                id="review-content"
+                class="form-textarea"
+                placeholder="Share your detailed thoughts about this recipe..."
+                [(ngModel)]="reviewContent"
+                name="content"
+                rows="6"
+                maxlength="500"
+                required></textarea>
+            <div class="char-counter">{{ reviewContent().length }}/500</div>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="form-actions">
+            <button 
+                type="button" 
+                class="btn-cancel"
+                (click)="onCancelReview()">
+                Cancel
+            </button>
+            <button 
+                type="submit" 
+                class="btn-submit"
+                [disabled]="!isFormValid()"
+                (click)="onSubmitReview()">
+                Submit Review
+            </button>
+        </div>
+    </form>
+</div>

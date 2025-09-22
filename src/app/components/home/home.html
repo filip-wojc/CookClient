@@ -9,7 +9,9 @@
 @if(isShowingReviews()) {
   <app-recipe-reviews
   (close)="onCloseReviews()"
+  (handleReviewChange)="refreshRecipeRating()"
   [reviews]="reviewsToShow()"
+  [recipe]="recipeForReviews()"
   >
   </app-recipe-reviews>
 }

@@ -3,6 +3,7 @@ import { inject, Injectable, signal } from "@angular/core";
 import { PageResponse } from "../models/responses/page.response";
 import { ReviewDto } from "../models/dtos/review.dto";
 import { tap } from "rxjs";
+import { CreateReviewDto } from "../models/dtos/create-review.dto";
 
 @Injectable({
     providedIn: 'root'
@@ -21,6 +22,15 @@ export class ReviewService {
                 })
             )
         }
+
+    
+    addReview(recipeId: number, dto: CreateReviewDto) {
+        return this.http.post<ReviewDto>(`${this.baseUrl}/recipe/${recipeId}`, dto).pipe(
+            tap(Response => {
+                
+            })
+        )
+    }
 
     deleteReview(reviewId: number) {
         return this.http.delete<PageResponse<ReviewDto>>(`${this.baseUrl}/${reviewId}`).pipe(

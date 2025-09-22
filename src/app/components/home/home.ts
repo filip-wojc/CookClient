@@ -32,9 +32,16 @@ export class Home implements OnInit{
 
    isShowingDetails = signal<boolean>(false)
    isShowingReviews = signal<boolean>(false)
+   recipeForReviews = signal<RecipeDto | null>(null)
 
    onAddRecipe() {
     
+   }
+
+
+   refreshRecipeRating() {
+    this.recipeService.loadRecipes(this.sortBy(), this.sortDirection(), this.newPage()).subscribe()
+    this.reviewService.loadReviews(this.recipeForReviews()!.id, 'ASC', 0).subscribe()
    }
 
    onSortChange() {
@@ -132,11 +139,12 @@ export class Home implements OnInit{
     this.isShowingDetails.set(false)
   }
 
-  onShowReviews(event: number) {
-    this.reviewService.loadReviews(event, 'ASC', 0).subscribe({
+  onShowReviews(event: RecipeDto) {
+    this.reviewService.loadReviews(event.id, 'ASC', 0).subscribe({
         next: () => {
             this.reviewsToShow.set(this.reviewService.pageData()?.content || [])
             this.isShowingReviews.set(true)
+            this.recipeForReviews.set(event)
         },
         error: (error) => {
             console.error('Error loading reviews:', error)

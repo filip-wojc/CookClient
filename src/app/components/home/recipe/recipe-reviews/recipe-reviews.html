@@ -10,18 +10,30 @@
         </button>
     </div>
 
-    @if (reviews().length === 0) {
-    <div class="add-review-section">
+    @if (isAddingReview()) {
+        <app-add-review
+        (cancelReview)="onCancelReview()"
+        (onNewReview)="handleNewReview($event)"
+        [recipeId]="recipe()!.id"
+        >
+
+        </app-add-review>
+    }
+    @else {
+    @if (currentReviews().length === 0) {
+        @if (!isUserAuthor()) {
+            <div class="add-review-section">
         <button class="add-review-btn" (click)="onAddReview()" title="Add your review">
             <span class="add-review-icon">+</span>
             <span class="add-review-text">Add Review</span>
          </button>
     </div>
+        }
     <div class="no-reviews">
             <div class="no-reviews-icon">📝</div>
             <h3 class="no-reviews-title">No reviews yet</h3>
             <p class="no-reviews-message">
-                Be the first to share your thoughts about this recipe!
+                This recipe still waits for first review!
             </p>
     </div>
     }
@@ -40,17 +52,19 @@
                 <div class="stat-value">{{ getMostCommonRating() }}</div>
                 <div class="stat-label">Most Common</div>
             </div>
-             @if(canAddReview()) {
-        <button class="add-review-btn" (click)="onAddReview()" title="Add your review">
-            <span class="add-review-icon">+</span>
-            <span class="add-review-text">Add Review</span>
-         </button>
-        } 
-        @else {
-        <button class="delete-review-btn" (click)="onDeleteReview()" title="DeleteReview">
-            <span class="add-review-icon">x</span>
-            <span class="add-review-text">Delete Review</span>
-         </button>
+            @if (!isUserAuthor()) {
+                @if (canAddReview()) {
+                <button class="add-review-btn" (click)="onAddReview()">
+                    <span class="add-review-icon">+</span>
+                    <span class="add-review-text">Add Review</span>
+                </button>
+            }
+            @else {
+                <button class="delete-review-btn" (click)="onDeleteReview()">
+                    <span class="add-review-icon">×</span>
+                    <span class="add-review-text">Delete Review</span>
+                </button>
+            }
         }
         </div>
 
@@ -78,5 +92,6 @@
                 }
             </div>
         </div>
+    }
     }
 </dialog>

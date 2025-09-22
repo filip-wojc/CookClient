@@ -12,7 +12,7 @@ export class Recipe {
     recipe = input.required<RecipeDto>()
 
     showDetails = output<number>()
-    showReviews = output<number>()
+    showReviews = output<RecipeDto>()
     
 
     getDifficultyClass(): string {
@@ -57,7 +57,7 @@ export class Recipe {
 }
 
   showRecipeReviews(){
-    this.showReviews.emit(this.recipe().id)
+    this.showReviews.emit(this.recipe())
   }
 
   onShowDetails() {
