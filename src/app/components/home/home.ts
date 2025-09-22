@@ -10,10 +10,11 @@ import { ReviewDto } from '../../models/dtos/review.dto';
 import { ReviewService } from '../../services/review.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { AddRecipe } from './add-recipe/add-recipe';
 
 @Component({
   selector: 'app-home',
-  imports: [Recipe, FormsModule, RecipeDetails, RecipeReviews],
+  imports: [Recipe, FormsModule, RecipeDetails, RecipeReviews, AddRecipe],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
@@ -43,11 +44,10 @@ export class Home implements OnInit{
 
    isShowingDetails = signal<boolean>(false)
    isShowingReviews = signal<boolean>(false)
+   isAddingRecipe = signal<boolean>(false)
    recipeForReviews = signal<RecipeDto | null>(null)
 
-   onAddRecipe() {
-    alert("to do")
-   }
+   
 
 
    refreshRecipeRating() {
@@ -165,5 +165,13 @@ export class Home implements OnInit{
 
   onCloseReviews() {
     this.isShowingReviews.set(false)
+  }
+
+  onAddRecipe() {
+    this.isAddingRecipe.set(true)
+  }
+
+  onCloseAddingRecipe() {
+    this.isAddingRecipe.set(false)
   }
 }

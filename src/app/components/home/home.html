@@ -16,6 +16,13 @@
   </app-recipe-reviews>
 }
 
+@if (isAddingRecipe()) {
+  <app-add-recipe
+  (close)="onCloseAddingRecipe()"
+  >
+  </app-add-recipe>
+}
+
 
 <!-- home.html -->
 <div class="recipes-page">

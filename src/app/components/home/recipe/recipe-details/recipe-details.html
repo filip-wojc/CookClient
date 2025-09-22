@@ -5,12 +5,19 @@
             <h2 class="modal-title">{{recipe()!.name}}</h2>
             <div class="author-info">Author: {{recipe()!.author.fullname}}</div>
         </div>
-        <button class="close-button" (click)="onCancel()" title="Close">
-            ×
-        </button>
+        <button class="close-button" (click)="onCancel()" title="Close">×</button>
     </div>
     
     <div class="modal-content">
+        <!-- Recipe Image Section -->
+        <div class="recipe-image-section">
+            <img 
+                [src]="recipe()!.imageUrl || 'assets/recipe_placeholder.jpg'" 
+                [alt]="recipe()!.name"
+                class="recipe-image"
+                (error)="onImageError($event)">
+        </div>
+
         <div class="recipe-stats">
             <div class="stat-item">
                 <div class="stat-icon">🔥</div>

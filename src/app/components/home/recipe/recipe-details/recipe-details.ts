@@ -15,4 +15,8 @@ export class RecipeDetails {
   onCancel() {
     this.close.emit()
   }
+  onImageError(event: Event) {
+  const img = event.target as HTMLImageElement;
+  img.src = 'assets/recipe_placeholder.jpg';
+ }
 }

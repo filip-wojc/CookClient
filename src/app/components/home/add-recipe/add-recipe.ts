@@ -1,0 +1,157 @@
+import { CommonModule } from '@angular/common';
+import { Component, inject, output, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { CreateProductDto } from '../../../models/dtos/create-product.dto';
+import { CreateRecipeDto } from '../../../models/dtos/create-recipe.dto';
+import { RecipeService } from '../../../services/recipe.service';
+import { ToastrService } from 'ngx-toastr';
+
+@Component({
+  selector: 'app-add-recipe',
+  imports: [CommonModule, FormsModule],
+  templateUrl: './add-recipe.html',
+  styleUrl: './add-recipe.css'
+})
+export class AddRecipe {
+  close = output<void>()
+
+  recipeName = signal<string>('')
+  recipeDescription = signal<string>('')
+  recipeDifficulty = signal<string>('')
+  recipeCalories = signal<number>(0)
+  products = signal<CreateProductDto[]>([])
+  selectedImage = signal<File | null>(null);
+  imagePreview = signal<string | null>(null);
+  imageFileName = signal<string>('');
+  isSubmitting = signal<boolean>(false)
+
+  recipeService = inject(RecipeService)
+  toastr = inject(ToastrService)
+
+  onClose() {
+    this.close.emit()
+  }
+
+  addProduct() {
+  this.products.update(products => [...products, { name: '' }]);
+}
+
+removeProduct(index: number) {
+  if (this.products().length <= 1) {
+    return;
+  }
+  
+  this.products.update(products => 
+    products.filter((_, i) => i !== index)
+  );
+}
+
+isFormValid(): boolean {
+  const hasName = this.recipeName().trim().length > 0;
+  const hasDescription = this.recipeDescription().trim().length > 0;
+  const hasDifficulty = this.recipeDifficulty().length > 0;
+  const hasCalories = this.recipeCalories() !== null && this.recipeCalories()! > 0;
+  
+  const hasValidProducts = this.products().length > 0 && 
+                           this.products().every(p => p.name.trim().length > 0);
+  
+  return hasName && hasDescription && hasDifficulty && hasCalories && hasValidProducts;
+ }
+
+  onCaloriesChange(event: Event){
+  const input = event.target as HTMLInputElement;
+  let value = input.value;
+  
+  value = value.replace(/\D/g, '');
+  
+  value = value.replace(/^0+/, '');
+  
+  if (value.length > 6) {
+    value = value.slice(0, 6);
+  }
+  
+  input.value = value;
+  this.recipeCalories.set(parseInt(value));
+  }
+
+  onSubmit() {
+    const createRecipeDto: CreateRecipeDto = {
+      name: this.recipeName(),
+      description: this.recipeDescription(),
+      calories: this.recipeCalories(),
+      difficulty: this.recipeDifficulty(),
+      products: this.products()
+    }
+
+    const formData = new FormData()
+    formData.append('createRecipeDto', new Blob([JSON.stringify(createRecipeDto)], {
+    type: 'application/json'
+    }));
+  
+    if (this.selectedImage()) {
+    formData.append('image', this.selectedImage()!);
+    }
+    
+    this.isSubmitting.set(true)
+    this.recipeService.addRecipe(formData).subscribe({
+      next: (response) => {
+        this.isSubmitting.set(false)
+        this.toastr.success(`recipe added! ${response.name}`)
+        this.onClose()
+      },
+      error: (error) => {
+        this.isSubmitting.set(false)
+        this.toastr.error(`error: ${error.error.message}`)
+      }
+    })
+    
+  }
+
+
+  onImageSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    
+    if (!file) {
+      this.clearImage();
+      return;
+    }
+
+    if (!file.type.startsWith('image/')) {
+      console.error('Selected file is not an image');
+      this.clearImage();
+      return;
+    }
+
+    const maxSizeInMB = 10;
+    if (file.size > maxSizeInMB * 1024 * 1024) {
+      console.error(`File too large. Max size: ${maxSizeInMB}MB`);
+      this.clearImage();
+      return;
+    }
+
+    this.selectedImage.set(file);
+    this.imageFileName.set(file.name);
+    
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      this.imagePreview.set(e.target?.result as string);
+    };
+    reader.onerror = () => {
+      console.error('Failed to read file');
+      this.clearImage();
+    };
+    reader.readAsDataURL(file);
+  }
+
+  clearImage() {
+    this.selectedImage.set(null);
+    this.imagePreview.set(null);
+    this.imageFileName.set('');
+    
+    const input = document.getElementById('recipe-image') as HTMLInputElement;
+    if (input) {
+      input.value = '';
+    }
+  }
+}

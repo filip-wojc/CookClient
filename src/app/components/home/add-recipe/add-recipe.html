@@ -1,0 +1,140 @@
+<div class="backdrop" (click)="onClose()"></div>
+<dialog open>
+    <div class="header">
+        <div class="header-info">
+            <h2 class="add-title">Add New Recipe</h2>
+        </div>
+        <button class="close-button" (click)="onClose()" title="Close">×</button>
+    </div>
+
+    <div class="recipe-form-container">
+        <form class="recipe-form">
+            
+            <!-- Recipe Name -->
+            <div class="form-group">
+                <label class="form-label">Recipe Name<span class="required">*</span></label>
+                <input 
+                    type="text" 
+                    class="form-input"
+                    placeholder="e.g., Chocolate Chip Cookies"
+                    [(ngModel)]="recipeName"
+                    name="name"
+                    required>
+            </div>
+
+            <!-- Description -->
+            <div class="form-group">
+                <label class="form-label">Description<span class="required">*</span></label>
+                <textarea 
+                    class="form-textarea"
+                    placeholder="Describe your recipe..."
+                    [(ngModel)]="recipeDescription"
+                    name="description"
+                    rows="4"
+                    required></textarea>
+            </div>
+
+            <!-- Difficulty & Calories Row -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Difficulty<span class="required">*</span></label>
+                    <select class="form-select" [(ngModel)]="recipeDifficulty" name="difficulty" required>
+                        <option value="">Select difficulty</option>
+                        <option value="EASY">Easy</option>
+                        <option value="MEDIUM">Medium</option>
+                        <option value="HARD">Hard</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Calories<span class="required">*</span></label>
+                    <input 
+                        type="number" 
+                        class="form-input"
+                        placeholder="e.g., 250"
+                        [(ngModel)]="recipeCalories"
+                        name="calories"
+                        min="0"
+                        required
+                        (input)="onCaloriesChange($event)"
+                        >
+                </div>
+            </div>
+
+            <!-- Image Upload -->
+            <div class="form-group">
+                <label class="form-label">Recipe Image<span class="optional">(optional)</span></label>
+                <div class="file-upload-container">
+                    <input 
+                        type="file" 
+                        id="recipe-image"
+                        class="file-input"
+                        accept="image/*"
+                        (change)="onImageSelected($event)">
+                    <label for="recipe-image" class="file-label">
+                        <span class="file-icon">📁</span>
+                        <span class="file-text">{{ imageFileName || 'Choose image' }}</span>
+                    </label>
+                    @if (imagePreview()) {
+                        <img [src]="imagePreview()" class="image-preview" alt="Preview">
+                    }
+                </div>
+            </div>
+
+            <!-- Products/Ingredients -->
+            <div class="form-group">
+                <label class="form-label">
+                    Ingredients<span class="required">*</span>
+                    <span class="ingredient-count">({{ products().length }})</span>
+                </label>
+                
+                <div class="ingredients-list">
+                    @for (product of products(); track $index) {
+                        <div class="ingredient-item">
+                            <input 
+                                type="text" 
+                                class="ingredient-input"
+                                placeholder="e.g., Flour"
+                                [(ngModel)]="products()[$index].name"
+                                [name]="'product-' + $index">
+                            <button 
+                                type="button" 
+                                class="remove-ingredient-btn"
+                                (click)="removeProduct($index)">×</button>
+                        </div>
+                    }
+                </div>
+
+                <button 
+                    type="button" 
+                    class="add-ingredient-btn"
+                    (click)="addProduct()">
+                    <span class="add-icon">+</span>
+                    <span>Add Ingredient</span>
+                </button>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="form-actions">
+                <button 
+                    type="button" 
+                    class="btn-cancel"
+                    (click)="onClose()">
+                    Cancel
+                </button>
+                <button 
+                type="submit" 
+                class="btn-submit"
+                [disabled]="!isFormValid() || isSubmitting()"
+                (click)="onSubmit()">
+                @if (isSubmitting()) {
+                    <span class="spinner"></span>
+                    Creating...
+                } @else {
+                    Create Recipe
+                }
+                </button>
+            </div>
+        </form>
+    </div>
+</dialog>
