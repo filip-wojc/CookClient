@@ -20,6 +20,7 @@
 
 @if (isAddingRecipe()) {
   <app-add-recipe
+  [isAdding]="true"
   (close)="onCloseAddingRecipe()"
   (recipeAdded)="this.recipeService.loadRecipes(this.sortBy(), this.sortDirection(), this.newPage()).subscribe()"
   [recipeToModify]="null"
@@ -29,6 +30,7 @@
 
 @if (isModifyingRecipe()) {
   <app-add-recipe
+  [isAdding]="false"
   (close)="onCloseModifyingRecipe()"
   (recipeAdded)="this.recipeService.loadRecipes(this.sortBy(), this.sortDirection(), this.newPage()).subscribe()"
   [recipeToModify]="this.recipeToModify()"

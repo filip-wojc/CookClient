@@ -94,7 +94,7 @@ isFormValid(): boolean {
   
   const hasValidProducts = this.products().length > 0 && 
                            this.products().every(p => p.name.trim().length > 0);
-
+  
   return hasName && hasDescription && hasDifficulty && hasCalories && hasValidProducts;
   
  }
