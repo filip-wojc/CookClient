@@ -5,6 +5,7 @@ import { catchError, map, Observable, throwError } from "rxjs";
 import { LoginResponse } from "../models/responses/login.response";
 import { Router, RouterOutlet } from "@angular/router";
 import { UserDto } from "../models/dtos/user.dto";
+import { RegisterRequest } from "../models/requests/register.request";
 
 @Injectable({
     providedIn: 'root'
@@ -34,12 +35,19 @@ export class AccountService {
     login(payload: LoginRequest) {
         return this.http.post<LoginResponse>(`${this.baseUrl}/login`, payload).pipe(
       map((response: LoginResponse) => {
-        console.log('Login successful, response:', response);
         const user = this.setUserData(response);
         this.startRefreshTokenTimer();
         this.getCurrentUserDto()
         this.currentUser.set(user); 
         console.log(user)
+      })
+    );
+    }
+
+    register(payload: RegisterRequest) {
+       return this.http.post(`${this.baseUrl}/register`, payload).pipe(
+      map(() => {
+        
       })
     );
     }

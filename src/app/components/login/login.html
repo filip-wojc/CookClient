@@ -1,9 +1,50 @@
 <div class="login-page-container">
   <div class="outer-container">
-    <h1>Sign in</h1>
-    <form (ngSubmit)="onSubmitLogin()">
+    <h1>
+        @if(isRegistering()) {
+            Register
+        } @else {
+            Sign in
+        }
+    </h1>
+    <form (ngSubmit)="onSubmit()">
         <div class="input-boxes">
-            <input 
+            @if (isRegistering()){
+                <input 
+                name="username" 
+                type="text" 
+                placeholder="Username"
+                [value]="newUsername()"
+                (input)="onUsernameChange($event)"
+            >
+             <input 
+                name="fullname" 
+                type="text" 
+                placeholder="Fullname"
+                [value]="newFullname()"
+                (input)="onFullnameChange($event)"
+            >
+             <div class="password-container">
+                <input 
+                id="new-password-input"
+                name="password" 
+                type="password" 
+                placeholder="Password"
+                [value]="newPassword()"
+                (input)="onPasswordChange($event)"
+                >
+                <button type="button" (click)="togglePassword()">{{passwordVisibleText()}}</button>
+            </div>
+                <input 
+                id="confirm-password-input"
+                name="confirm-password" 
+                type="password" 
+                placeholder="Confirm password"
+                [value]="newPasswordConfirm()"
+                (input)="onConfirmPasswordChange($event)"
+                >              
+            } @else {
+                 <input 
             name="username" 
             type="text" 
             placeholder="Username"
@@ -21,12 +62,25 @@
                 >
                 <button type="button" (click)="togglePassword()">{{passwordVisibleText()}}</button>
             </div>            
+            }  
         </div>
-        <button type="submit">Sign in</button>
+        <button type="submit" [disabled]="arePasswordsEqual()">
+            @if(isRegistering()){
+                Create account
+            } @else {
+                Sign in
+            }
+        </button>
     </form>
     <div class="bottom-container">
-        <h3>Don't have an account yet?</h3>
-        <button (click)="changeToRegisterForm()">Create new account</button>
+        @if (isRegistering()) {
+            <h3>You already have an account?</h3>
+            <button (click)="changeToLoginForm()">Sign in</button>
+        }
+        @else {
+            <h3>Don't have an account yet?</h3>
+            <button (click)="changeToRegisterForm()">Create new account</button>
+        }
         <button (click)="this.router.navigateByUrl('/')">
             Explore recipes now
         </button>
