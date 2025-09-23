@@ -2,7 +2,13 @@
 <dialog open>
     <div class="header">
         <div class="header-info">
-            <h2 class="add-title">Add New Recipe</h2>
+            <h2 class="add-title">
+                @if(isAdding()){
+                    Add New Recipe
+                } @else {
+                    Modify the recipe
+                }
+            </h2>
         </div>
         <button class="close-button" (click)="onClose()" title="Close">×</button>
     </div>
@@ -129,9 +135,17 @@
                 (click)="onSubmit()">
                 @if (isSubmitting()) {
                     <span class="spinner"></span>
-                    Creating...
+                    @if(isAdding()) {
+                        Creating...
+                    }@else{
+                        Modifying...
+                    }
                 } @else {
-                    Create Recipe
+                    @if (isAdding()) {
+                        Create Recipe
+                    }@else {
+                        Modify recipe
+                    }
                 }
                 </button>
             </div>

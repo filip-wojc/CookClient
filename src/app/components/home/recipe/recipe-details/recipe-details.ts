@@ -15,6 +15,8 @@ import { ToastrService } from 'ngx-toastr';
 export class RecipeDetails {
   close = output<void>()
   recipeDeleted = output<number>()
+  onModifyRecipe = output<RecipeDto>()
+
   recipe = input<RecipeDto | null>(null)
 
   accountService = inject(AccountService)
@@ -54,5 +56,9 @@ export class RecipeDetails {
       this.toastr.error(`Error while deleting recipe: ${error.error.message}`)
     }
   })
+ }
+
+ modifyRecipe() {
+  this.onModifyRecipe.emit(this.recipe()!)
  }
 }

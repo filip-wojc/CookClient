@@ -31,6 +31,14 @@ export class RecipeService{
         )
     }
 
+    modifyRecipe(formData: FormData, recipeId: number) {
+        return this.http.put<RecipeDto>(`${this.baseUrl}/${recipeId}`, formData).pipe(
+            tap(response => {
+                
+            })
+        )
+    }
+
     deleteRecipe(recipeId: number) {
         return this.http.delete(`${this.baseUrl}/${recipeId}`).pipe(
             tap(response => {
@@ -38,4 +46,5 @@ export class RecipeService{
             })
         )
     }
+
 }

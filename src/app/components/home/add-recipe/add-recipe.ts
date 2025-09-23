@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, output, signal } from '@angular/core';
+import { Component, effect, inject, input, OnInit, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CreateProductDto } from '../../../models/dtos/create-product.dto';
 import { CreateRecipeDto } from '../../../models/dtos/create-recipe.dto';
 import { RecipeService } from '../../../services/recipe.service';
 import { ToastrService } from 'ngx-toastr';
+import { RecipeDto } from '../../../models/dtos/recipe.dto';
 
 @Component({
   selector: 'app-add-recipe',
@@ -13,7 +14,11 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './add-recipe.css'
 })
 export class AddRecipe {
+  isAdding = input<boolean>()
+  recipeToModify = input<RecipeDto | null>()
+
   close = output<void>()
+  recipeAdded = output<void>()
 
   recipeName = signal<string>('')
   recipeDescription = signal<string>('')
@@ -27,6 +32,41 @@ export class AddRecipe {
 
   recipeService = inject(RecipeService)
   toastr = inject(ToastrService)
+
+  constructor(){
+    effect(() => {
+       const recipe = this.recipeToModify();
+      
+      if (recipe) {
+        this.recipeName.set(recipe.name || '');
+        this.recipeDescription.set(recipe.description || '');
+        this.recipeDifficulty.set(recipe.difficulty || '');
+        this.recipeCalories.set(recipe.calories || 0);
+        
+        if (recipe.products && recipe.products.length > 0) {
+          this.products.set(recipe.products.map(p => ({ name: p.name || '' })));
+        } else {
+          this.products.set([{ name: '' }]);
+        }
+        
+        if (recipe.imageUrl) {
+          this.imagePreview.set(recipe.imageUrl);
+          this.imageFileName.set('Current image');
+        }
+      } else {
+        this.resetForm();
+      }
+    });
+  }
+
+  resetForm() {
+    this.recipeName.set('');
+    this.recipeDescription.set('');
+    this.recipeDifficulty.set('');
+    this.recipeCalories.set(0);
+    this.products.set([{ name: '' }]);
+    this.clearImage();
+  }
 
   onClose() {
     this.close.emit()
@@ -54,8 +94,9 @@ isFormValid(): boolean {
   
   const hasValidProducts = this.products().length > 0 && 
                            this.products().every(p => p.name.trim().length > 0);
-  
+
   return hasName && hasDescription && hasDifficulty && hasCalories && hasValidProducts;
+  
  }
 
   onCaloriesChange(event: Event){
@@ -83,8 +124,10 @@ isFormValid(): boolean {
       products: this.products()
     }
 
+    const jsonName = this.isAdding() ? 'createRecipeDto' : 'updateRecipeDto' 
+
     const formData = new FormData()
-    formData.append('createRecipeDto', new Blob([JSON.stringify(createRecipeDto)], {
+    formData.append(jsonName, new Blob([JSON.stringify(createRecipeDto)], {
     type: 'application/json'
     }));
   
@@ -93,9 +136,11 @@ isFormValid(): boolean {
     }
     
     this.isSubmitting.set(true)
-    this.recipeService.addRecipe(formData).subscribe({
+    if (this.isAdding()) {
+        this.recipeService.addRecipe(formData).subscribe({
       next: (response) => {
         this.isSubmitting.set(false)
+        this.recipeAdded.emit()
         this.toastr.success(`recipe added! ${response.name}`)
         this.onClose()
       },
@@ -104,8 +149,21 @@ isFormValid(): boolean {
         this.toastr.error(`error: ${error.error.message}`)
       }
     })
-    
-  }
+  } else {
+    this.recipeService.modifyRecipe(formData, this.recipeToModify()!.id).subscribe({
+      next: (response) => {
+        this.isSubmitting.set(false)
+        this.recipeAdded.emit()
+        this.toastr.success(`recipe modified! ${response.name}`)
+        this.onClose()
+      },
+      error: (error) => {
+        this.isSubmitting.set(false)
+        this.toastr.error(`error: ${error.error.message}`)
+      }
+    })
+  }  
+}
 
 
   onImageSelected(event: Event) {

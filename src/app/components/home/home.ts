@@ -45,9 +45,9 @@ export class Home implements OnInit{
    isShowingDetails = signal<boolean>(false)
    isShowingReviews = signal<boolean>(false)
    isAddingRecipe = signal<boolean>(false)
+   isModifyingRecipe = signal<boolean>(false)
    recipeForReviews = signal<RecipeDto | null>(null)
-
-   
+   recipeToModify = signal<RecipeDto | null>(null)
 
 
    refreshRecipeRating() {
@@ -173,5 +173,15 @@ export class Home implements OnInit{
 
   onCloseAddingRecipe() {
     this.isAddingRecipe.set(false)
+  }
+
+  showModifyRecipeComponent(event: RecipeDto) {
+    this.recipeToModify.set(event)
+    this.isShowingDetails.set(false)
+    this.isModifyingRecipe.set(true)
+  }
+
+  onCloseModifyingRecipe() {
+    this.isModifyingRecipe.set(false)
   }
 }

@@ -2,7 +2,8 @@
   <app-recipe-details 
   [recipe]="recipeToShowDetails()!"
   (close)="onCloseDetails()"
-  (recipeDeleted)="this.recipeService.loadRecipes(this.sortBy(), this.sortDirection(), 0).subscribe()"
+  (onModifyRecipe)="showModifyRecipeComponent($event)"
+  (recipeDeleted)="this.recipeService.loadRecipes(this.sortBy(), this.sortDirection(), this.newPage()).subscribe()"
   >
   </app-recipe-details>
 }
@@ -20,6 +21,17 @@
 @if (isAddingRecipe()) {
   <app-add-recipe
   (close)="onCloseAddingRecipe()"
+  (recipeAdded)="this.recipeService.loadRecipes(this.sortBy(), this.sortDirection(), this.newPage()).subscribe()"
+  [recipeToModify]="null"
+  >
+  </app-add-recipe>
+}
+
+@if (isModifyingRecipe()) {
+  <app-add-recipe
+  (close)="onCloseModifyingRecipe()"
+  (recipeAdded)="this.recipeService.loadRecipes(this.sortBy(), this.sortDirection(), this.newPage()).subscribe()"
+  [recipeToModify]="this.recipeToModify()"
   >
   </app-add-recipe>
 }

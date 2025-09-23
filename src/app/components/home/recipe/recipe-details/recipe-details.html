@@ -71,6 +71,9 @@
 
     <div class="modal-footer">
         @if(isUserAuthor()) {
+            <button class="btn btn-secondary" id="modify-btn" (click)="modifyRecipe()">
+               Modify recipe
+            </button>
             <button class="btn btn-secondary" id="delete-btn" (click)="deleteRecipe()" [disabled]="isDeleting()">
                  @if (isDeleting()) {
                     <span class="spinner"></span>
