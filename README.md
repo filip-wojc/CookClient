@@ -95,6 +95,27 @@ The application will be available at `http://localhost:4200`
 - **Form Validation**: Real-time validation with helpful error messages
 - **Toast Notifications**: Success and error notifications
 
+## Preview
+### Login screen
+![](preview/login.png)
+### Register screen
+![](preview/register.png)
+### Main page (unathorized user)
+![](preview/main-page.png)
+### Main page (athorized user)
+![](preview/main-page-loggedIn.png)
+### Recipe details (own recipe)
+![](preview/recipe-details-when-owner.png)
+### Recipe details
+![](preview/recipe-details.png)
+### Add recipe
+![](preview/add-recipe.png)
+### Recipe reviews
+![](preview/recipe-reviews.png)
+### Add review
+![](preview/add-review.png)
+
+
 ## License
 
 This project is an educational/portfolio project demonstrating modern Angular development practices with Spring Boot integration.
