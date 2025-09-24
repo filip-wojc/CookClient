@@ -1,59 +1,100 @@
 # CookClient
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.1.
+![Angular](https://img.shields.io/badge/Angular-19.2.0-red) ![TypeScript](https://img.shields.io/badge/Typescript-5.7.2-blue)
 
-## Development server
+A Recipe Management application developed in Angular, enabling users to discover, create, and review recipes. Created to work with [CookAPI](https://github.com/your-username/cook-api) - a Spring Boot backend.
 
-To start a local development server, run:
+## Key Features
 
+- **User Authentication** - Secure registration and login system with JWT tokens
+- **Automatic Token Refresh** - Seamless authentication using refresh tokens
+- **Recipe Discovery** - Browse paginated recipe collections with advanced sorting options
+- **Recipe Management** - Create, modify, and delete your own recipes with image uploads
+- **Review System** - Write reviews and rate recipes, delete your own reviews
+- **Responsive Design** - Optimized for both desktop and mobile devices
+- **Real-time Feedback** - Toast notifications for user actions
+- **Form Validation** - Client-side validation for better user experience
+
+## Architecture
+```
+┌──────────────────────────────────────────┐     
+│              CookAPI                     │
+│           Spring Boot Backend            │     
+│         (REST API + JWT Auth)            │
+└──────────────────────────────────────────┘     
+                   ▲     
+                   │  HTTP REST + JWT Tokens     
+                   ▼     
+┌──────────────────────────────────────────┐    
+│             Angular Services             │     
+│    (Recipe, Account, Authentication)     │         
+│          HTTP Client + Interceptors      │
+└──────────────────────────────────────────┘      
+                   ▲      
+                   │  Business Logic + State Management     
+                   ▼      
+┌──────────────────────────────────────────┐          
+│            Angular Components            │             
+│         (Recipe List, Forms, Auth)       │                   
+│          Reactive Forms + Signals        │                  
+│            Component Communication       │                     
+└──────────────────────────────────────────┘                     
+                   ▲         
+                   │  Templates + User Interaction         
+                   ▼         
+┌──────────────────────────────────────────┐         
+│                 User                     │         
+│      Recipe browsing and management      │         
+└──────────────────────────────────────────┘         
+```
+
+## Tech Stack
+### Core Technologies
+
+- **Angular 19** - Modern TypeScript-based framework with Signals
+- **TypeScript** - Strongly typed superset of JavaScript
+- **CSS** - Custom styling with responsive design
+- **Reactive Forms** - Angular form handling and validation
+
+
+### Environment Setup
+
+1. **Clone the repository**
+```bash
+git clone <repository-url>
+cd cookclient
+npm install
+```
+
+2. **Install and start [CookAPI](https://github.com/filip-wojc/CookAPI)**
+
+3. **Start the Angular application**
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+The application will be available at `http://localhost:4200`
 
-## Code scaffolding
+### Recipe Management
+- **Browse Recipes**: Paginated recipe listing with sorting by calories, difficulty, name
+- **Recipe Details**: Full recipe information with ingredients, difficulty rating, and user reviews
+- **Create/Edit**: Rich form interface for recipe creation and modification
+- **Image Upload**: Support for recipe images with preview functionality
+- **User Authorization**: Users can only edit/delete their own recipes
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Review System
+- **Rate Recipes**: 1-10 star rating system
+- **Write Reviews**: Detailed text reviews with title and description
+- **Average Ratings**: Calculated average ratings displayed on recipes
+- **Review Management**: Users can delete their own reviews
 
-```bash
-ng generate component component-name
-```
+### User Experience
+- **Responsive Design**: Optimized for all screen sizes
+- **Loading States**: Visual feedback during API operations
+- **Error Handling**: Comprehensive error messages and recovery
+- **Form Validation**: Real-time validation with helpful error messages
+- **Toast Notifications**: Success and error notifications
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## License
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+This project is an educational/portfolio project demonstrating modern Angular development practices with Spring Boot integration.
