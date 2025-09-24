@@ -111,7 +111,7 @@ The application will be available at `http://localhost:4200`
 ### Add recipe
 ![](preview/add-recipe.png)
 ### Recipe reviews
-![](preview/recipe-reviews.png)
+![](preview/recipe_reviews.png)
 ### Add review
 ![](preview/add-review.png)
 
