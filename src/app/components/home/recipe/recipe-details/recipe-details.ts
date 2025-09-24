@@ -50,6 +50,7 @@ export class RecipeDetails {
       this.isDeleting.set(false)
       this.close.emit()
       this.recipeDeleted.emit(recipeId)
+      this.toastr.success("Recipe deleted!")
     },
     error: (error) => {
       this.isDeleting.set(false)

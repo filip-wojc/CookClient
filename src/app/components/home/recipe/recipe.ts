@@ -1,10 +1,10 @@
 import { Component, input, output, signal } from '@angular/core';
 import { RecipeDto } from '../../../models/dtos/recipe.dto';
-import { NgClass, TitleCasePipe } from '@angular/common';
+import { DecimalPipe, NgClass, TitleCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-recipe',
-  imports: [NgClass, TitleCasePipe],
+  imports: [NgClass, TitleCasePipe, DecimalPipe],
   templateUrl: './recipe.html',
   styleUrl: './recipe.css'
 })

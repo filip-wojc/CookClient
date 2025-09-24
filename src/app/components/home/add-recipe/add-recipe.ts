@@ -141,7 +141,7 @@ isFormValid(): boolean {
       next: (response) => {
         this.isSubmitting.set(false)
         this.recipeAdded.emit()
-        this.toastr.success(`recipe added! ${response.name}`)
+        this.toastr.success(`Recipe added!`)
         this.onClose()
       },
       error: (error) => {
@@ -154,7 +154,7 @@ isFormValid(): boolean {
       next: (response) => {
         this.isSubmitting.set(false)
         this.recipeAdded.emit()
-        this.toastr.success(`recipe modified! ${response.name}`)
+        this.toastr.success(`Recipe modified!`)
         this.onClose()
       },
       error: (error) => {

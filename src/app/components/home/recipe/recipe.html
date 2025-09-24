@@ -69,7 +69,7 @@
     }
   </div>
   <div class="rating-info">
-    <span class="rating-value">{{ recipe().rating }}/10</span>
+    <span class="rating-value">{{ recipe().rating | number:'1.0-2' }}/10</span>
     <span class="rating-label">Rating</span>
   </div>
 </div>

@@ -87,7 +87,7 @@ export class Login {
         this.isRegistering.set(false)
       },
       error: (error) => {
-        this.error.set(error.message)
+        this.error.set(error.error.message)
         console.log('error ' + error.error.message)
       }
     })
